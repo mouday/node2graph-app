@@ -1,7 +1,7 @@
 import os
 from flask_cors import CORS
 from flask import Flask, request, make_response, send_file
-from uuid import uuid4
+import uuid
 
 import subprocess
 
@@ -10,7 +10,6 @@ CORS(app, supports_credentials=True)
 
 UPLOAD_DIR_PATH = os.path.join(app.root_path, app.static_folder, 'upload')
 UPLOAD_DIR_URL = '/upload'
-print(UPLOAD_DIR_URL)
 
 def make_error(msg='error', code=-1):
     return {
@@ -32,7 +31,7 @@ def convert_node_to_png():
     if not data:
         return make_error('data is empty')
 
-    data_uid = uuid4().hex
+    data_uid = str(uuid.uuid4())
     fullname = os.path.join(UPLOAD_DIR_PATH, "{}.node".format(data_uid))
     if not os.path.exists(UPLOAD_DIR_PATH):
         os.makedirs(UPLOAD_DIR_PATH)
